@@ -16,7 +16,7 @@ public class ViewIssuedBooks extends JFrame {
         EventQueue.invokeLater(() -> {});
     }
 
-    public ViewIssuedBooks() {
+    public ViewIssuedBooks(boolean admin, String userName) {
         setBounds(270, 150, 1005, 505);
         setResizable(false);
 
@@ -25,18 +25,21 @@ public class ViewIssuedBooks extends JFrame {
         setContentPane(panel);
         panel.setLayout(null);
 
-        JLabel label = new JLabel("ALL ISSUED BOOKS");
-        label.setFont(new Font("Arial", Font.PLAIN, 24));
-        label.setBounds(385, 10, 270, 70);
-        panel.add(label);
-
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "");
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT books.bookID, books.name, books.genre, books.price FROM books INNER JOIN issue ON books.bookID = issue.bookID WHERE issue.returnDate IS NULL");
+            PreparedStatement preparedStatement;
+
+            if (admin) {
+                preparedStatement = connection.prepareStatement("SELECT books.bookID, books.name, books.genre, books.price FROM (books INNER JOIN issue ON books.bookID = issue.bookID) WHERE issue.returnDate IS NULL");
+            } else {
+                preparedStatement = connection.prepareStatement("SELECT books.bookID, books.name, books.genre, books.price FROM ((books INNER JOIN issue ON books.bookID = issue.bookID) INNER JOIN users ON issue.userID = users.userID) WHERE users.username = ? AND issue.returnDate IS NULL");
+                preparedStatement.setString(1, userName);
+            }
+
             ResultSet resultSet = preparedStatement.executeQuery();
 
             JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setBounds(0, 90, 992, 455);
+            scrollPane.setBounds(0, 1, 992, 505);
 
             DefaultTableModel tableModel = new DefaultTableModel();
             tableModel.addColumn("ID");

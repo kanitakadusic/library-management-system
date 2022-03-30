@@ -3,14 +3,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.Serial;
 
-public class UserHome extends JFrame {
+public class AdminHome extends JFrame {
     @Serial
     private static final long serialVersionUID = 1L;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                UserHome frame = new UserHome();
+                AdminHome frame = new AdminHome();
                 frame.setVisible(true);
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -18,9 +18,9 @@ public class UserHome extends JFrame {
         });
     }
 
-    public UserHome() {}
+    public AdminHome() {}
 
-    public UserHome(String userName) {
+    public AdminHome(String userName) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(270, 150, 1005, 505);
         setResizable(false);
@@ -45,13 +45,28 @@ public class UserHome extends JFrame {
         viewBooks.setBackground(new Color(91, 192, 222));
         panel.add(viewBooks);
 
+        // View users
+
+        JButton viewUsers = new JButton("View users");
+        viewUsers.setBackground(UIManager.getColor("Button.disabledForeground"));
+        viewUsers.addActionListener(e -> {
+            ViewUsers object = new ViewUsers();
+            object.setTitle("All library users");
+            object.setVisible(true);
+        });
+
+        viewUsers.setFont(new Font("Arial", Font.PLAIN, 24));
+        viewUsers.setBounds(360, 40, 270, 70);
+        viewUsers.setBackground(new Color(91, 192, 222));
+        panel.add(viewUsers);
+
         // View issued books
 
         JButton viewIssuedBooks = new JButton("View issued books");
         viewIssuedBooks.setBackground(UIManager.getColor("Button.disabledForeground"));
         viewIssuedBooks.addActionListener(e -> {
-            ViewIssuedBooks object = new ViewIssuedBooks(false, userName);
-            object.setTitle("My issued books");
+            ViewIssuedBooks object = new ViewIssuedBooks(true, userName);
+            object.setTitle("All issued books");
             object.setVisible(true);
         });
 
@@ -89,6 +104,36 @@ public class UserHome extends JFrame {
         returnBook.setBounds(515, 145, 270, 70);
         returnBook.setBackground(new Color(240, 173, 78));
         panel.add(returnBook);
+
+        // Add user
+
+        JButton addUser = new JButton("Add user");
+        addUser.setBackground(UIManager.getColor("Button.disabledForeground"));
+        addUser.addActionListener(e -> {
+//            AddUser object = new AddUser();
+//            object.setTitle("Add user");
+//            object.setVisible(true);
+        });
+
+        addUser.setFont(new Font("Arial", Font.PLAIN, 24));
+        addUser.setBounds(205, 250, 270, 70);
+        addUser.setBackground(new Color(92, 184, 92));
+        panel.add(addUser);
+
+        // Add book
+
+        JButton addBook = new JButton("Add book");
+        addBook.setBackground(UIManager.getColor("Button.disabledForeground"));
+        addBook.addActionListener(e -> {
+//            AddBook object = new AddBook();
+//            object.setTitle("Add book");
+//            object.setVisible(true);
+        });
+
+        addBook.setFont(new Font("Arial", Font.PLAIN, 24));
+        addBook.setBounds(515, 250, 270, 70);
+        addBook.setBackground(new Color(92, 184, 92));
+        panel.add(addBook);
 
         // Logout
 

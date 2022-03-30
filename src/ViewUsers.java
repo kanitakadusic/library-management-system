@@ -25,18 +25,13 @@ public class ViewUsers extends JFrame {
         setContentPane(panel);
         panel.setLayout(null);
 
-        JLabel label = new JLabel("ALL LIBRARY USERS");
-        label.setFont(new Font("Arial", Font.PLAIN, 24));
-        label.setBounds(385, 10, 270, 70);
-        panel.add(label);
-
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "");
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setBounds(0, 90, 992, 455);
+            scrollPane.setBounds(0, 1, 992, 505);
 
             DefaultTableModel tableModel = new DefaultTableModel();
             tableModel.addColumn("ID");

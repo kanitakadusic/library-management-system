@@ -74,7 +74,7 @@ public class UserLogin extends JFrame {
             try {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "");
 
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT username FROM users WHERE username = ? AND password = ? AND admin = true");
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT username, admin FROM users WHERE username = ? AND password = ?");
                 preparedStatement.setString(1, userName);
                 preparedStatement.setString(2, password);
 
@@ -83,11 +83,17 @@ public class UserLogin extends JFrame {
                 if (resultSet.next()) {
                     dispose();
 
-                    UserHome home = new UserHome(userName);
-                    home.setTitle("Welcome");
-                    home.setVisible(true);
+                    if (resultSet.getBoolean("users.admin")) {
+                        AdminHome home = new AdminHome(userName);
+                        home.setTitle("Welcome");
+                        home.setVisible(true);
+                    } else {
+                        UserHome home = new UserHome(userName);
+                        home.setTitle("Welcome");
+                        home.setVisible(true);
+                    }
                 } else {
-                    JLabel message = new JLabel(" Invalid login credentials || Access denied for non-admin users ");
+                    JLabel message = new JLabel(" Invalid username or password ");
                     message.setFont(new Font("Arial", Font.PLAIN, 18));
                     message.setForeground(new Color(217, 83, 79));
                     JOptionPane.showOptionDialog(null, message, "Access denied", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
