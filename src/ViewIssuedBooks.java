@@ -30,9 +30,9 @@ public class ViewIssuedBooks extends JFrame {
             PreparedStatement preparedStatement;
 
             if (admin) {
-                preparedStatement = connection.prepareStatement("SELECT books.bookID, books.name, books.genre, books.price FROM (books INNER JOIN issue ON books.bookID = issue.bookID) WHERE issue.returnDate IS NULL");
+                preparedStatement = connection.prepareStatement("SELECT issue.issueID, books.name, books.bookID, users.username, users.userID, issue.issueDate, issue.period FROM ((books INNER JOIN issue ON books.bookID = issue.bookID) INNER JOIN users ON issue.userID = users.userID) WHERE issue.returnDate IS NULL");
             } else {
-                preparedStatement = connection.prepareStatement("SELECT books.bookID, books.name, books.genre, books.price FROM ((books INNER JOIN issue ON books.bookID = issue.bookID) INNER JOIN users ON issue.userID = users.userID) WHERE users.userID = ? AND issue.returnDate IS NULL");
+                preparedStatement = connection.prepareStatement("SELECT issue.issueID, books.name, books.bookID, issue.issueDate, issue.period FROM ((books INNER JOIN issue ON books.bookID = issue.bookID) INNER JOIN users ON issue.userID = users.userID) WHERE users.userID = ? AND issue.returnDate IS NULL");
                 preparedStatement.setString(1, userID);
             }
 
@@ -43,9 +43,10 @@ public class ViewIssuedBooks extends JFrame {
 
             DefaultTableModel tableModel = new DefaultTableModel();
             tableModel.addColumn("ID");
-            tableModel.addColumn("Name");
-            tableModel.addColumn("Genre");
-            tableModel.addColumn("Price");
+            tableModel.addColumn("Book");
+            if (admin) tableModel.addColumn("User");
+            tableModel.addColumn("Issue date");
+            tableModel.addColumn("Period");
 
             JTable table = new JTable(tableModel);
             table.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -58,26 +59,46 @@ public class ViewIssuedBooks extends JFrame {
             header.setPreferredSize(new Dimension(scrollPane.getWidth(), 60));
             header.setBackground(new Color(91, 192, 222));
 
-            TableColumnModel columnModel = table.getColumnModel();
-            columnModel.getColumn(0).setPreferredWidth(100);
-            columnModel.getColumn(1).setPreferredWidth(420);
-            columnModel.getColumn(2).setPreferredWidth(250);
-            columnModel.getColumn(3).setPreferredWidth(220);
-
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(JLabel.CENTER);
             table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-            table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
 
-            while (resultSet.next()) {
-                Object[] row = new Object[4];
+            TableColumnModel columnModel = table.getColumnModel();
 
-                row[0] = resultSet.getString("books.bookID");
-                row[1] = resultSet.getString("books.name");
-                row[2] = resultSet.getString("books.genre");
-                row[3] = resultSet.getString("books.price");
+            if (admin) {
+                columnModel.getColumn(0).setPreferredWidth(90);
+                columnModel.getColumn(1).setPreferredWidth(290);
+                columnModel.getColumn(2).setPreferredWidth(220);
+                columnModel.getColumn(3).setPreferredWidth(210);
+                columnModel.getColumn(4).setPreferredWidth(190);
 
-                tableModel.addRow(row);
+                while (resultSet.next()) {
+                    Object[] row = new Object[5];
+
+                    row[0] = resultSet.getString("issue.issueID");
+                    row[1] = resultSet.getString("books.name") + " | " + resultSet.getString("books.bookId");
+                    row[2] = resultSet.getString("users.username") + " | " + resultSet.getString("users.userID");
+                    row[3] = resultSet.getString("issue.issueDate");
+                    row[4] = resultSet.getString("issue.period");
+
+                    tableModel.addRow(row);
+                }
+            } else {
+                columnModel.getColumn(0).setPreferredWidth(100);
+                columnModel.getColumn(1).setPreferredWidth(420);
+                columnModel.getColumn(2).setPreferredWidth(250);
+                columnModel.getColumn(3).setPreferredWidth(220);
+
+                while (resultSet.next()) {
+                    Object[] row = new Object[4];
+
+                    row[0] = resultSet.getString("issue.issueID");
+                    row[1] = resultSet.getString("books.name") + " | " + resultSet.getString("books.bookId");
+                    row[2] = resultSet.getString("issue.issueDate");
+                    row[3] = resultSet.getString("issue.period");
+
+                    tableModel.addRow(row);
+                }
             }
 
             scrollPane.getViewport().add(table);
