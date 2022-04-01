@@ -110,9 +110,9 @@ public class AdminHome extends JFrame {
         JButton addUser = new JButton("Add user");
         addUser.setBackground(UIManager.getColor("Button.disabledForeground"));
         addUser.addActionListener(e -> {
-//            AddUser object = new AddUser();
-//            object.setTitle("Add user");
-//            object.setVisible(true);
+            AddUser object = new AddUser();
+            object.setTitle("Add user");
+            object.setVisible(true);
         });
 
         addUser.setFont(new Font("Arial", Font.PLAIN, 24));
