@@ -77,22 +77,22 @@ public class IssueBook extends JFrame {
         submit.setFont(new Font("Arial", Font.PLAIN, 24));
         submit.setBounds(360, 355, 270, 70);
         submit.setForeground(new Color(247, 247, 247));
-        submit.setBackground(new Color(92, 184, 92));
+        submit.setBackground(new Color(240, 173, 78));
 
         submit.addActionListener(e -> {
-            String bookID = bookField.getText();
-            String userID = userField.getText();
+            int bookID = Integer.parseInt(bookField.getText());
+            int userID = Integer.parseInt(userField.getText());
             String issueDate = dateField.getText();
-            String period = periodField.getText();
+            int period = Integer.parseInt(periodField.getText());
 
             try {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "");
 
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO issue (userID, bookID, issueDate, period) VALUES (?, ?, ?, ?)");
-                preparedStatement.setString(1, userID);
-                preparedStatement.setString(2, bookID);
-                preparedStatement.setString(3, issueDate);
-                preparedStatement.setString(4, period);
+                preparedStatement.setInt(1, userID);
+                preparedStatement.setInt(2, bookID);
+                preparedStatement.setDate(3, java.sql.Date.valueOf(issueDate));
+                preparedStatement.setInt(4, period);
                 preparedStatement.executeUpdate();
 
                 JLabel message = new JLabel(" Book has been successfully issued ");
