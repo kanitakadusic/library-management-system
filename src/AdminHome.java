@@ -125,9 +125,9 @@ public class AdminHome extends JFrame {
         JButton addBook = new JButton("Add book");
         addBook.setBackground(UIManager.getColor("Button.disabledForeground"));
         addBook.addActionListener(e -> {
-//            AddBook object = new AddBook();
-//            object.setTitle("Add book");
-//            object.setVisible(true);
+            AddBook object = new AddBook();
+            object.setTitle("Add book");
+            object.setVisible(true);
         });
 
         addBook.setFont(new Font("Arial", Font.PLAIN, 24));
