@@ -80,9 +80,9 @@ public class AdminHome extends JFrame {
         JButton issueBook = new JButton("Issue book");
         issueBook.setBackground(UIManager.getColor("Button.disabledForeground"));
         issueBook.addActionListener(e -> {
-//            IssueBook object = new IssueBook();
-//            object.setTitle("Issue book");
-//            object.setVisible(true);
+            IssueBook object = new IssueBook();
+            object.setTitle("Issue book");
+            object.setVisible(true);
         });
 
         issueBook.setFont(new Font("Arial", Font.PLAIN, 24));
