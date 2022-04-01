@@ -14,7 +14,7 @@ public class ChangePassword extends JFrame {
         EventQueue.invokeLater(() -> {});
     }
 
-    public ChangePassword(String userName) {
+    public ChangePassword(String userID) {
         setBounds(270, 150, 1005, 505);
         setResizable(false);
 
@@ -49,9 +49,9 @@ public class ChangePassword extends JFrame {
             try {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "");
 
-                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET password = ? WHERE username = ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET password = ? WHERE userID = ?");
                 preparedStatement.setString(1, password);
-                preparedStatement.setString(2, userName);
+                preparedStatement.setString(2, userID);
                 preparedStatement.executeUpdate();
 
                 JLabel message = new JLabel(" Password has been successfully changed ");

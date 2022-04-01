@@ -16,7 +16,7 @@ public class ViewIssuedBooks extends JFrame {
         EventQueue.invokeLater(() -> {});
     }
 
-    public ViewIssuedBooks(boolean admin, String userName) {
+    public ViewIssuedBooks(boolean admin, String userID) {
         setBounds(270, 150, 1005, 505);
         setResizable(false);
 
@@ -32,8 +32,8 @@ public class ViewIssuedBooks extends JFrame {
             if (admin) {
                 preparedStatement = connection.prepareStatement("SELECT books.bookID, books.name, books.genre, books.price FROM (books INNER JOIN issue ON books.bookID = issue.bookID) WHERE issue.returnDate IS NULL");
             } else {
-                preparedStatement = connection.prepareStatement("SELECT books.bookID, books.name, books.genre, books.price FROM ((books INNER JOIN issue ON books.bookID = issue.bookID) INNER JOIN users ON issue.userID = users.userID) WHERE users.username = ? AND issue.returnDate IS NULL");
-                preparedStatement.setString(1, userName);
+                preparedStatement = connection.prepareStatement("SELECT books.bookID, books.name, books.genre, books.price FROM ((books INNER JOIN issue ON books.bookID = issue.bookID) INNER JOIN users ON issue.userID = users.userID) WHERE users.userID = ? AND issue.returnDate IS NULL");
+                preparedStatement.setString(1, userID);
             }
 
             ResultSet resultSet = preparedStatement.executeQuery();

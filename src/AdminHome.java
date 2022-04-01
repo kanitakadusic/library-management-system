@@ -20,7 +20,7 @@ public class AdminHome extends JFrame {
 
     public AdminHome() {}
 
-    public AdminHome(String userName) {
+    public AdminHome(String userID) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(270, 150, 1005, 505);
         setResizable(false);
@@ -65,7 +65,7 @@ public class AdminHome extends JFrame {
         JButton viewIssuedBooks = new JButton("View issued books");
         viewIssuedBooks.setBackground(UIManager.getColor("Button.disabledForeground"));
         viewIssuedBooks.addActionListener(e -> {
-            ViewIssuedBooks object = new ViewIssuedBooks(true, userName);
+            ViewIssuedBooks object = new ViewIssuedBooks(true, userID);
             object.setTitle("All issued books");
             object.setVisible(true);
         });
@@ -157,7 +157,7 @@ public class AdminHome extends JFrame {
         JButton changePassword = new JButton("Change password");
         changePassword.setBackground(UIManager.getColor("Button.disabledForeground"));
         changePassword.addActionListener(e -> {
-            ChangePassword object = new ChangePassword(userName);
+            ChangePassword object = new ChangePassword(userID);
             object.setTitle("Change password");
             object.setVisible(true);
         });

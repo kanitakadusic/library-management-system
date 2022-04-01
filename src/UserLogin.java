@@ -74,7 +74,7 @@ public class UserLogin extends JFrame {
             try {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "");
 
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT username, admin FROM users WHERE username = ? AND password = ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT userID, admin FROM users WHERE username = ? AND password = ?");
                 preparedStatement.setString(1, userName);
                 preparedStatement.setString(2, password);
 
@@ -84,11 +84,11 @@ public class UserLogin extends JFrame {
                     dispose();
 
                     if (resultSet.getBoolean("users.admin")) {
-                        AdminHome home = new AdminHome(userName);
+                        AdminHome home = new AdminHome(resultSet.getString("users.userID"));
                         home.setTitle("Welcome");
                         home.setVisible(true);
                     } else {
-                        UserHome home = new UserHome(userName);
+                        UserHome home = new UserHome(resultSet.getString("users.userID"));
                         home.setTitle("Welcome");
                         home.setVisible(true);
                     }
