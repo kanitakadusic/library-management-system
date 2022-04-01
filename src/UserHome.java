@@ -41,7 +41,7 @@ public class UserHome extends JFrame {
         });
 
         viewBooks.setFont(new Font("Arial", Font.PLAIN, 24));
-        viewBooks.setBounds(50, 40, 270, 70);
+        viewBooks.setBounds(205, 145, 270, 70);
         viewBooks.setBackground(new Color(91, 192, 222));
         panel.add(viewBooks);
 
@@ -56,39 +56,9 @@ public class UserHome extends JFrame {
         });
 
         viewIssuedBooks.setFont(new Font("Arial", Font.PLAIN, 24));
-        viewIssuedBooks.setBounds(670, 40, 270, 70);
+        viewIssuedBooks.setBounds(515, 145, 270, 70);
         viewIssuedBooks.setBackground(new Color(91, 192, 222));
         panel.add(viewIssuedBooks);
-
-        // Issue book
-
-        JButton issueBook = new JButton("Issue book");
-        issueBook.setBackground(UIManager.getColor("Button.disabledForeground"));
-        issueBook.addActionListener(e -> {
-//            IssueBook object = new IssueBook();
-//            object.setTitle("Issue book");
-//            object.setVisible(true);
-        });
-
-        issueBook.setFont(new Font("Arial", Font.PLAIN, 24));
-        issueBook.setBounds(205, 145, 270, 70);
-        issueBook.setBackground(new Color(240, 173, 78));
-        panel.add(issueBook);
-
-        // Return book
-
-        JButton returnBook = new JButton("Return book");
-        returnBook.setBackground(UIManager.getColor("Button.disabledForeground"));
-        returnBook.addActionListener(e -> {
-//            ReturnBook object = new ReturnBook();
-//            object.setTitle("Return book");
-//            object.setVisible(true);
-        });
-
-        returnBook.setFont(new Font("Arial", Font.PLAIN, 24));
-        returnBook.setBounds(515, 145, 270, 70);
-        returnBook.setBackground(new Color(240, 173, 78));
-        panel.add(returnBook);
 
         // Logout
 
@@ -103,7 +73,7 @@ public class UserHome extends JFrame {
         });
 
         logout.setFont(new Font("Arial", Font.PLAIN, 24));
-        logout.setBounds(50, 355, 425, 70);
+        logout.setBounds(50, 250, 425, 70);
         logout.setBackground(new Color(247, 247, 247));
         panel.add(logout);
 
@@ -118,7 +88,7 @@ public class UserHome extends JFrame {
         });
 
         changePassword.setFont(new Font("Arial", Font.PLAIN, 24));
-        changePassword.setBounds(515, 355, 425, 70);
+        changePassword.setBounds(515, 250, 425, 70);
         changePassword.setBackground(new Color(247, 247, 247));
         panel.add(changePassword);
     }
