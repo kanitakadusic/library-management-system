@@ -31,7 +31,8 @@ public class ViewBooks extends JFrame {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setBounds(0, 1, 992, 505);
+            scrollPane.setBounds(-2, -1, 1012, 471);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
             DefaultTableModel tableModel = new DefaultTableModel();
             tableModel.addColumn("ID");
@@ -48,6 +49,7 @@ public class ViewBooks extends JFrame {
             JTableHeader header = table.getTableHeader();
             header.setFont(new Font("Arial", Font.PLAIN, 24));
             header.setPreferredSize(new Dimension(scrollPane.getWidth(), 60));
+            header.setForeground(new Color(247, 247, 247));
             header.setBackground(new Color(91, 192, 222));
 
             TableColumnModel columnModel = table.getColumnModel();
