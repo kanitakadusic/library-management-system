@@ -68,6 +68,16 @@ public class AddBook extends JFrame {
         submit.setBackground(new Color(92, 184, 92));
 
         submit.addActionListener(e -> {
+
+            // Input validation
+
+            if (nameField.getText().isEmpty() || genreField.getText().isEmpty() || Methods.isNotNumber(priceField.getText())) {
+                Methods.dialogMessage(" Input field can not be empty  |  Incorrect price data type ", false, "Input validation message");
+                return;
+            }
+
+            // Execution continues if the entries are correct
+
             String name = nameField.getText();
             String genre = genreField.getText();
             float price = Float.parseFloat(priceField.getText());
@@ -81,10 +91,7 @@ public class AddBook extends JFrame {
                 preparedStatement.setFloat(3, price);
                 preparedStatement.executeUpdate();
 
-                JLabel message = new JLabel(" Book has been successfully added ");
-                message.setFont(new Font("Arial", Font.PLAIN, 18));
-                message.setForeground(new Color(92, 184, 92));
-                JOptionPane.showOptionDialog(null, message, "Book added", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
+                Methods.dialogMessage(" Book has been successfully added ", true, "Book added");
 
                 dispose();
             } catch (SQLException sqlException) {

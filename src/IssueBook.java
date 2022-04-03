@@ -80,6 +80,16 @@ public class IssueBook extends JFrame {
         submit.setBackground(new Color(240, 173, 78));
 
         submit.addActionListener(e -> {
+
+            // Input validation
+
+            if (Methods.isNotDate(dateField.getText()) || Methods.isNotNumber(bookField.getText()) || Methods.isNotNumber(userField.getText()) || Methods.isNotNumber(periodField.getText())) {
+                Methods.dialogMessage(" Input field can not be empty  |  Incorrect input data type ", false, "Input validation message");
+                return;
+            }
+
+            // Execution continues if the entries are correct
+
             int bookID = Integer.parseInt(bookField.getText());
             int userID = Integer.parseInt(userField.getText());
             String issueDate = dateField.getText();
@@ -95,14 +105,11 @@ public class IssueBook extends JFrame {
                 preparedStatement.setInt(4, period);
                 preparedStatement.executeUpdate();
 
-                JLabel message = new JLabel(" Book has been successfully issued ");
-                message.setFont(new Font("Arial", Font.PLAIN, 18));
-                message.setForeground(new Color(92, 184, 92));
-                JOptionPane.showOptionDialog(null, message, "Book issued", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
+                Methods.dialogMessage(" Book has been successfully issued ", true, "Book issued");
 
                 dispose();
             } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
+                Methods.dialogMessage(" Non existing database input value ", false, "Input validation message");
             }
         });
 

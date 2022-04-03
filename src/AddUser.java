@@ -68,6 +68,23 @@ public class AddUser extends JFrame {
         submit.setBackground(new Color(92, 184, 92));
 
         submit.addActionListener(e -> {
+
+            // Input validation
+
+            if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty() || (!adminField.getText().equals("true") && !adminField.getText().equals("false"))) {
+                Methods.dialogMessage(" Input field can not be empty  |  Incorrect admin data type ", false, "Input validation message");
+                return;
+            }
+
+            String validationMessage = Methods.passwordValidationMessage(passwordField.getText());
+
+            if (!validationMessage.isEmpty()) {
+                Methods.dialogMessage(validationMessage, false, "Password validation message");
+                return;
+            }
+
+            // Execution continues if the entries are correct
+
             String username = usernameField.getText();
             String password = passwordField.getText();
             boolean admin = Boolean.parseBoolean(adminField.getText());
@@ -81,10 +98,7 @@ public class AddUser extends JFrame {
                 preparedStatement.setBoolean(3, admin);
                 preparedStatement.executeUpdate();
 
-                JLabel message = new JLabel(" User has been successfully added ");
-                message.setFont(new Font("Arial", Font.PLAIN, 18));
-                message.setForeground(new Color(92, 184, 92));
-                JOptionPane.showOptionDialog(null, message, "User added", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
+                Methods.dialogMessage(" User has been successfully added ", true, "User added");
 
                 dispose();
             } catch (SQLException sqlException) {

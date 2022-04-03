@@ -3,8 +3,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.Serial;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 
 public class ChangePassword extends JFrame {
     @Serial
@@ -47,7 +45,7 @@ public class ChangePassword extends JFrame {
 
         submit.addActionListener(e -> {
             String password = passwordField.getText();
-            String validationMessage = passwordValidationMessage(password);
+            String validationMessage = Methods.passwordValidationMessage(password);
 
             if (validationMessage.isEmpty()) {
                 try {
@@ -58,47 +56,17 @@ public class ChangePassword extends JFrame {
                     preparedStatement.setString(2, userID);
                     preparedStatement.executeUpdate();
 
-                    JLabel message = new JLabel(" Password has been successfully changed ");
-                    message.setFont(new Font("Arial", Font.PLAIN, 18));
-                    message.setForeground(new Color(92, 184, 92));
-                    JOptionPane.showOptionDialog(null, message, "Password changed", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
+                    Methods.dialogMessage(" Password has been successfully changed ", true, "Password changed");
 
                     dispose();
                 } catch (SQLException sqlException) {
                     sqlException.printStackTrace();
                 }
             } else {
-                JLabel message = new JLabel(validationMessage);
-                message.setFont(new Font("Arial", Font.PLAIN, 18));
-                message.setForeground(new Color(217, 83, 79));
-                JOptionPane.showOptionDialog(null, message, "Password validation message", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
+                Methods.dialogMessage(validationMessage, false, "Password validation message");
             }
         });
 
         panel.add(submit);
-    }
-
-    public static String passwordValidationMessage(String password) {
-        StringBuilder message = new StringBuilder("<html><body>");
-
-        HashMap<String, String> validation = new HashMap<>();
-        validation.put("^(?=.*[a-z]).{1,}$", "add lowercase letter");
-        validation.put("^(?=.*[A-Z]).{1,}$", "add uppercase letter");
-        validation.put("^(?=.*[0-9]).{1,}$", "add number");
-        validation.put("^(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{1,}$", "add special character");
-        validation.put("^(?=\\S+$).{1,}$", "remove spaces");
-        validation.put("^.{8,20}$", "limit 8-20 characters");
-
-        for (String i : validation.keySet())
-            if (!Pattern.compile(i).matcher(password).matches())
-                message.append("&nbsp;•&nbsp;&nbsp;").append(validation.get(i)).append("<br>");
-
-        message.append("</body></html>");
-
-        if (message.toString().equals("<html><body></body></html>")) {
-            return "";
-        }
-
-        return message.toString();
     }
 }
