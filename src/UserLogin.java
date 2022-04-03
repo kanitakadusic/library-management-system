@@ -74,7 +74,7 @@ public class UserLogin extends JFrame {
             try {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "");
 
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT userID, admin FROM users WHERE username = ? AND password = ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT userID, admin FROM users WHERE username = BINARY ? AND password = BINARY ?");
                 preparedStatement.setString(1, userName);
                 preparedStatement.setString(2, password);
 
@@ -93,10 +93,7 @@ public class UserLogin extends JFrame {
                         home.setVisible(true);
                     }
                 } else {
-                    JLabel message = new JLabel(" Invalid username or password ");
-                    message.setFont(new Font("Arial", Font.PLAIN, 18));
-                    message.setForeground(new Color(217, 83, 79));
-                    JOptionPane.showOptionDialog(null, message, "Access denied", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
+                    Methods.dialogMessage(" Invalid username or password  -  Please try again ", false, "Access denied");
                 }
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();

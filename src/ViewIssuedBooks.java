@@ -30,9 +30,9 @@ public class ViewIssuedBooks extends JFrame {
             PreparedStatement preparedStatement;
 
             if (admin) {
-                preparedStatement = connection.prepareStatement("SELECT issue.issueID, books.name, books.bookID, users.username, users.userID, issue.issueDate, issue.period FROM ((books INNER JOIN issue ON books.bookID = issue.bookID) INNER JOIN users ON issue.userID = users.userID) WHERE issue.returnDate IS NULL");
+                preparedStatement = connection.prepareStatement("SELECT issue.issueID, books.name, books.bookID, users.username, users.userID, issue.issueDate, issue.period FROM ((books INNER JOIN issue ON books.bookID = issue.bookID) INNER JOIN users ON issue.userID = users.userID) WHERE issue.returnDate IS NULL ORDER BY issue.issueDate");
             } else {
-                preparedStatement = connection.prepareStatement("SELECT issue.issueID, books.name, books.bookID, issue.issueDate, issue.period FROM ((books INNER JOIN issue ON books.bookID = issue.bookID) INNER JOIN users ON issue.userID = users.userID) WHERE users.userID = ? AND issue.returnDate IS NULL");
+                preparedStatement = connection.prepareStatement("SELECT issue.issueID, books.name, books.bookID, issue.issueDate, issue.period FROM ((books INNER JOIN issue ON books.bookID = issue.bookID) INNER JOIN users ON issue.userID = users.userID) WHERE users.userID = ? AND issue.returnDate IS NULL ORDER BY issue.issueDate");
                 preparedStatement.setString(1, userID);
             }
 
@@ -64,15 +64,16 @@ public class ViewIssuedBooks extends JFrame {
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(JLabel.CENTER);
             table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+            table.getColumnModel().getColumn(tableModel.getColumnCount() - 1).setCellRenderer(centerRenderer);
 
             TableColumnModel columnModel = table.getColumnModel();
 
             if (admin) {
                 columnModel.getColumn(0).setPreferredWidth(90);
-                columnModel.getColumn(1).setPreferredWidth(290);
+                columnModel.getColumn(1).setPreferredWidth(330);
                 columnModel.getColumn(2).setPreferredWidth(220);
                 columnModel.getColumn(3).setPreferredWidth(210);
-                columnModel.getColumn(4).setPreferredWidth(190);
+                columnModel.getColumn(4).setPreferredWidth(150);
 
                 while (resultSet.next()) {
                     Object[] row = new Object[5];
@@ -87,9 +88,9 @@ public class ViewIssuedBooks extends JFrame {
                 }
             } else {
                 columnModel.getColumn(0).setPreferredWidth(100);
-                columnModel.getColumn(1).setPreferredWidth(420);
+                columnModel.getColumn(1).setPreferredWidth(440);
                 columnModel.getColumn(2).setPreferredWidth(250);
-                columnModel.getColumn(3).setPreferredWidth(220);
+                columnModel.getColumn(3).setPreferredWidth(200);
 
                 while (resultSet.next()) {
                     Object[] row = new Object[4];
