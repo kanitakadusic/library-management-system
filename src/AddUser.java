@@ -102,7 +102,7 @@ public class AddUser extends JFrame {
 
                 dispose();
             } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
+                Methods.dialogMessage(" Username already exists  -  Please try another one ", false, "Failed adding user");
             }
         });
 
